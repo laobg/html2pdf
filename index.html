@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>通知单</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: auto;
+    }
+    .print-btns {
+      position: fixed;
+      right: 20px;
+      bottom: 100px;
+    }
+    .print-btns button {
+      display: block;
+      width: 50px;
+      height: 50px;
+      text-align: center;
+      line-height: 50px;
+      background: transparent;
+      outline: none;
+    }
+    .print-btns button:hover {
+      background: rgba(0, 0, 0, .2);
+    }
+    #contentBox {
+      width: 1000px;
+      padding: 20px;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+    div,td,th {
+      box-sizing: border-box;
+    }
+    .notice-container {
+      width: 100%;
+      font-size: 14px;
+      color: #000;
+    }
+    .company {
+      font-size: 12px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .title {
+      position: relative;
+      width: 100%;
+      font-size: 32px;
+      font-weight: normal;
+      text-align: center;
+      line-height: 60px;
+    }
+    .sign-no {
+      position: absolute;
+      right: 0;
+      bottom: 12;
+      font-size: 12px;
+
+    }
+    .part {
+      width: 100%;
+      border-width: 1px 0 0 1px;
+      border-color: #000;
+      border-style: solid;
+      page-break-after: auto;
+    }
+    .part-title {
+      width: 100%;
+      height: 38px;
+      line-height: 38px;
+      text-align: center;
+    }
+    .row {
+      flex: 1;
+      display: flex;
+      width: 100%;
+    }
+    .label {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 25%;
+      text-align: center;
+      border-width: 0 1px 1px 0;
+      border-color: #000;
+      border-style: solid;
+    }
+    .label1 {
+      width: 12.5%;
+    }
+    .label34 {
+      width: 50%;
+    }
+    .cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      width: 100%;
+      min-height: 38px;
+      padding: 5px 10px;
+      text-align: center;
+      line-height: 1.5;
+      word-wrap: break-word;
+      border-width: 0 1px 1px 0;
+      border-color: #000;
+      border-style: solid;
+    }
+    .remark {
+      text-align: left;
+      justify-content: flex-start;
+      white-space: pre-line;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      page-break-after: auto;
+      border-right: 1px solid #000;
+    }
+    td,
+    th {
+      height: 38px;
+      padding: 5px 10px;
+      text-align: center;
+      font-weight: normal;
+      line-height: 1.5;
+      border-width: 0 1px 1px 0;
+      border-color: #000;
+      border-style: solid;
+    }
+    td:last-child,
+    th:last-child {
+      border-right: 0;
+    }
+    @media print {
+      body {
+        width: 1000px;
+      }
+      #contentBox {
+        padding: 0;
+      }
+      .print-btns {
+        display: none;
+      }
+    }
+  </style>
+  <script src="./html2canvas.min.js" defer></script>
+  <script src="./jspdf.min.js" defer></script>
+</head>
+<body>
+  <div class="print-btns">
+    <button onclick="window.print()">打印</button>
+    <button onclick="toPdf()">PDF</button>
+  </div>
+  <div id="contentBox">
+    <div class="notice-container">
+      <div class="company">XXXXX</div>
+      <h1 class="title">XXXXX<span class="sign-no">XXXXX</span></h1>
+      <!-- 一个部分 -->
+      <div class="part">
+        <!-- 两列 -->
+        <div class="row">
+          <div class="row">
+            <div class="label">XXXXX</div>
+            <div class="cell">施工井号施工井号施工井号施工井号施工井号施工井号施工井号
+              施工井号施工井号施工井号施工井号施工井号施工井号施工井号施工井号施工井号施工井
+              号施工井号施工井号施工井号施工井号施工井号施工井号施工井号施工井号施工井号施工井号
+              施工井号施工井号施工井号施工井号施工井号施工井号施工井号
+            </div>
+          </div>
+          <div class="row">
+            <div class="label">XXXXX</div>
+            <div class="cell"></div>
+          </div>
+        </div>
+  
+        <div class="row">
+          <div class="row">
+            <div class="label">XXXXX</div>
+            <div class="cell"></div>
+          </div>
+          <div class="row">
+            <div class="label">XXXXX</div>
+            <div class="cell"></div>
+          </div>
+        </div>
+        <!-- 一列 -->
+        <div class="row">
+          <div class="label label1">XXXXX</div>
+          <div class="cell"></div>
+        </div>
+  
+        <!-- 三列 一列中分出两列 -->
+        <div class="row">
+          <div class="row">
+            <div class="label">XXXXX</div>
+            <div class="cell"></div>
+          </div>
+          <div class="row">
+            <div class="row">
+              <div class="label label34">XXXXX</div>
+              <div class="cell"></div>
+            </div>
+            <div class="row">
+              <div class="label label34">XXXXX</div>
+              <div class="cell"></div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- 四列 -->
+        <div class="row">
+          <div class="row">
+            <div class="row">
+              <div class="label label34">XXXXX</div>
+              <div class="cell"></div>
+            </div>
+            <div class="row">
+              <div class="label label34">XXXXX</div>
+              <div class="cell"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="row">
+              <div class="label label34">XXXXX</div>
+              <div class="cell"></div>
+            </div>
+            <div class="row">
+              <div class="label label34">XXXXX</div>
+              <div class="cell"></div>
+            </div>
+          </div>
+        </div>
+  
+        
+        <!-- 一列 -->
+        <div class="row">
+          <div class="label label1">备注</div>
+          <div class="cell remark">施工井号施工井号施工井号施工井号施工井号施工井号施工井号
+            施工井号施工井号施工井号施工井号施工井号施工井号施工井号施工井号施工井号施工井
+            号施工井号施工井号施工井号施工井号施工井号施工井号施工井号施工井号施工井号施工井号
+            施工井号施工井号施工井号施工井号施工井号施工井号施工井号
+          </div>
+        </div>
+      </div>
+  
+      <div class="part-title">XXXXX</div>
+      <div class="part">
+         <!-- 两列 -->
+         <div class="row">
+          <div class="row">
+            <div class="label">XXXXX</div>
+            <div class="cell"></div>
+          </div>
+          <div class="row">
+            <div class="label">XXXXX</div>
+            <div class="cell"></div>
+          </div>
+        </div>
+  
+        <div class="cell">XXXXX</div>
+  
+        <table>
+          <thead>
+            <tr>
+              <th>XXXXX</th>
+              <th>XXXXX</th>
+              <th>XXXXX</th>
+              <th>XXXXX</th>
+              <th>XXXXX</th>
+              <th>XXXXX</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>xxx</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+  
+        <table>
+          <thead>
+            <tr>
+              <th>XXXXX</th>
+              <th>XXXXX</th>
+              <th>XXXXX</th>
+              <th>XXXXX</th>
+              <th>XXXXX</th>
+              <th>XXXXX</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>xxx</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+  
+        <!-- 两列 -->
+        <div class="row">
+         <div class="row">
+           <div class="label">XXXXX</div>
+           <div class="cell"></div>
+         </div>
+         <div class="row">
+           <div class="label">XXXXX</div>
+           <div class="cell"></div>
+         </div>
+       </div>
+      </div>
+  
+      <div class="part-title">XXXXX</div>
+      <div class="part">
+         <!-- 两列 -->
+         <div class="row">
+          <div class="row">
+            <div class="label">XXXXX</div>
+            <div class="cell"></div>
+          </div>
+          <div class="row">
+            <div class="label">XXXXX</div>
+            <div class="cell"></div>
+          </div>
+        </div>
+  
+        <div class="cell">XXXXX</div>
+  
+        <table>
+          <thead>
+            <tr>
+              <th>XXXXX</th>
+              <th>XXXXX</th>
+              <th>XXXXX</th>
+              <th>XXXXX</th>
+              <th>XXXXX</th>
+              <th>XXXXX</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>xxx</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+  
+        <div class="cell">XXXXX</div>
+  
+        <table>
+          <thead>
+            <tr>
+              <th>XXXXX</th>
+              <th>XXXXX</th>
+              <th>XXXXX</th>
+              <th>XXXXX</th>
+              <th>XXXXX</th>
+              <th>XXXXX</th>
+              <th>XXXXX</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>xxx</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            
+            <tr>
+              <td>xxx</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+  
+        
+         <!-- 两列 -->
+         <div class="row">
+          <div class="row">
+            <div class="label">XXXXX</div>
+            <div class="cell"></div>
+          </div>
+          <div class="row">
+            <div class="label">XXXXX</div>
+            <div class="cell"></div>
+          </div>
+        </div>
+        <!-- 两列 -->
+        <div class="row">
+         <div class="row">
+           <div class="label">XXXXX</div>
+           <div class="cell"></div>
+         </div>
+         <div class="row">
+           <div class="label">XXXXX</div>
+           <div class="cell"></div>
+         </div>
+       </div>
+      </div>
+    </div>
+  
+  </div>
+  
+  <script>
+    function toPdf() {
+      window.scrollTo(0,0); // 避免内容缺失
+      document.querySelector('.print-btns').style = 'display: none';
+      var oContentBox = document.querySelector("#contentBox");
+      oContentBox.style = 'margin: 0'; // 避免内容缺失
+      var boxWidth = oContentBox.offsetWidth;
+      var boxHeight = oContentBox.offsetHeight;
+      var canvas = document.createElement("canvas"); 
+      var scale = 5; // 处理模糊问题
+      canvas.width = boxWidth*scale; 
+      canvas.height = boxHeight*scale; 
+      var ctx = canvas.getContext("2d"); 
+      ctx.scale(scale, scale);
+      new html2canvas( oContentBox,
+                {
+                    canvas,
+                    scale,
+                    dpi: window.devicePixelRatio * scale,
+                    width: boxWidth,
+                    height: boxHeight,
+                    scrollX: 0,
+                    scrollY: 0,
+                    onrendered: function (canvas) {
+                        var contentWidth = canvas.width;
+                        var contentHeight = canvas.height;
+                        //一页pdf显示html页面生成的canvas高度;
+                        var pageHeight = contentWidth / 592.28 * 841.89;
+                        //未生成pdf的html页面高度
+                        var leftHeight = contentHeight;
+                        //pdf页面偏移
+                        var position = 0;
+                        //html页面生成的canvas在pdf中图片的宽高（a4纸的尺寸[595.28,841.89]）
+                        var imgWidth = 595.28;
+                        var imgHeight = 592.28 / contentWidth * contentHeight;
+                        
+                        var pageData = canvas.toDataURL('image/jpeg', 1.0);
+                        var pdf = new jsPDF('', 'pt', 'a4');
+
+                        //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
+                        //当内容未超过pdf一页显示的范围，无需分页
+                        if (leftHeight < pageHeight) {
+                            pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight);
+                        } else {
+                            while (leftHeight > 0) {
+                                pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
+                                leftHeight -= pageHeight;
+                                position -= 841.89;
+                                //避免添加空白页
+                                if (leftHeight > 0) {
+                                    pdf.addPage();
+                                }
+                            }
+                        }
+                        pdf.save('content.pdf');
+                        document.querySelector('.print-btns').style = '';
+                        oContentBox.style = '';
+                    },
+                    //背景设为白色（默认为黑色）
+                    background: "#fff"  
+                })
+
+    }
+  </script>
+</body>
+</html>
