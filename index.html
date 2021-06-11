@@ -2,15 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>通知单</title>
   <style>
     html,
     body {
       margin: 0;
       padding: 0;
-      overflow: auto;
     }
     .print-btns {
       position: fixed;
@@ -430,6 +427,9 @@
   </div>
   
   <script>
+    function judgeIsMobileBrowser() {
+      return /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i.test(navigator.userAgent);
+    }
     function toPdf() {
       window.scrollTo(0,0); // 避免内容缺失
       document.querySelector('.print-btns').style = 'display: none';
@@ -446,8 +446,7 @@
       new html2canvas( oContentBox,
                 {
                     canvas,
-                    scale,
-                    dpi: window.devicePixelRatio * scale,
+                    scale: window.devicePixelRatio * scale,
                     width: boxWidth,
                     height: boxHeight,
                     scrollX: 0,
@@ -455,15 +454,15 @@
                     onrendered: function (canvas) {
                         var contentWidth = canvas.width;
                         var contentHeight = canvas.height;
-                        //一页pdf显示html页面生成的canvas高度;
-                        var pageHeight = contentWidth / 592.28 * 841.89;
                         //未生成pdf的html页面高度
                         var leftHeight = contentHeight;
                         //pdf页面偏移
                         var position = 0;
                         //html页面生成的canvas在pdf中图片的宽高（a4纸的尺寸[595.28,841.89]）
                         var imgWidth = 595.28;
-                        var imgHeight = 592.28 / contentWidth * contentHeight;
+                        var imgHeight = imgWidth / contentWidth * contentHeight;
+                        //一页pdf显示html页面生成的canvas高度;
+                        var pageHeight = contentWidth / imgWidth * 841.89;
                         
                         var pageData = canvas.toDataURL('image/jpeg', 1.0);
                         var pdf = new jsPDF('', 'pt', 'a4');
@@ -491,6 +490,12 @@
                     background: "#fff"  
                 })
 
+    }
+    window.onload = function() {
+      // 在pad上隐藏打印等按钮
+      if(judgeIsMobileBrowser()) {
+        document.querySelector('.print-btns').style = 'display: none';
+      }
     }
   </script>
 </body>
